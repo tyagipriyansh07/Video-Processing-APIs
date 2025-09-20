@@ -1,0 +1,26 @@
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.venv/
+env/
+.env/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+
+# Media files (DO NOT commit user-uploaded content)
+uploads/
+trimmed/
+overlays/
+qualities/
+
+# Node.js dependencies
+node_modules/
