@@ -1,3 +1,9 @@
+# Top-level key for databases
+databases:
+  - name: video-db
+    plan: free
+
+# Top-level key for application services
 services:
   # 1. The FastAPI Web Service
   - type: web
@@ -36,12 +42,7 @@ services:
           name: video-redis
           property: connectionString
 
-  # 3. The PostgreSQL Database
-  - type: postgres
-    name: video-db
-    plan: free
-
-  # 4. The Redis Instance
+  # 3. The Redis Instance (remains a service)
   - type: redis
     name: video-redis
     plan: free
