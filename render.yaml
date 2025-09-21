@@ -3,12 +3,14 @@ databases:
     plan: free
 
 services:
-  # 1. Combined Web Service and Worker
+  # This is the only service you need
   - type: web
     name: video-backend
     env: python
     plan: free
-    rootDir: backend # <--- This is the crucial fix
+    # This line is the most important fix.
+    # It tells Render to run all commands from inside the 'backend' folder.
+    rootDir: backend
     buildCommand: |
       pip install -r requirements.txt
       alembic upgrade head
@@ -26,7 +28,7 @@ services:
           name: video-redis
           property: connectionString
 
-  # 2. The Redis Instance
+  # The Redis Instance
   - type: redis
     name: video-redis
     plan: free
