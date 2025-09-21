@@ -8,13 +8,9 @@ services:
     name: video-backend
     env: python
     plan: free
-    # We will run all commands from the root, but change directory first
-    buildCommand: |
-      cd backend &&
-      pip install -r requirements.txt &&
-      alembic upgrade head &&
-      apt-get update && apt-get install -y ffmpeg &&
-      chmod +x ./start.sh
+    # The build command now simply runs our script and installs ffmpeg
+    buildCommand: "./build.sh && apt-get update && apt-get install -y ffmpeg"
+    # The start command must still change directory
     startCommand: "cd backend && ./start.sh"
     envVars:
       - key: DATABASE_URL
