@@ -1,0 +1,47 @@
+services:
+  # 1. The FastAPI Web Service
+  - type: web
+    name: video-backend
+    env: python
+    plan: free
+    # Run migrations before starting the server
+    buildCommand: "pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: video-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: video-redis
+          property: connectionString
+
+  # 2. The Celery Background Worker
+  - type: worker
+    name: celery-worker
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && apt-get update && apt-get install -y ffmpeg"
+    startCommand: "celery -A app.services.job_queue.celery worker --loglevel=info"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: video-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: video-redis
+          property: connectionString
+
+  # 3. The PostgreSQL Database
+  - type: psql
+    name: video-db
+    plan: free
+
+  # 4. The Redis Instance
+  - type: redis
+    name: video-redis
+    plan: free
