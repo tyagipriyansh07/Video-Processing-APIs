@@ -37,7 +37,7 @@ services:
           property: connectionString
 
   # 3. The PostgreSQL Database
-  - type: psql
+  - type: postgres
     name: video-db
     plan: free
 
