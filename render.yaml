@@ -3,14 +3,11 @@ databases:
     plan: free
 
 services:
-  # This is the only service you need
   - type: web
     name: video-backend
     env: python
     plan: free
-    # The build command now simply runs our script and installs ffmpeg
-    buildCommand: "./build.sh && apt-get update && apt-get install -y ffmpeg"
-    # The start command must still change directory
+    buildCommand: "./build.sh"
     startCommand: "cd backend && ./start.sh"
     envVars:
       - key: DATABASE_URL
@@ -23,7 +20,6 @@ services:
           name: video-redis
           property: connectionString
 
-  # The Redis Instance
   - type: redis
     name: video-redis
     plan: free
