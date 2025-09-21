@@ -10,7 +10,6 @@ services:
     name: video-backend
     env: python
     plan: free
-    # Run migrations before starting the server
     buildCommand: "pip install -r requirements.txt && alembic upgrade head"
     startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -46,3 +45,4 @@ services:
   - type: redis
     name: video-redis
     plan: free
+    ipAllowList: [] # <-- This is the corrected line
